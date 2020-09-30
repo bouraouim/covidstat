@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/tn/tn-all.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>DATA-VIZ COVID</title>
+  <link href="{% static 'COVID/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'COVID/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+  <link href="{% static 'COVID/lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'COVID/lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{% static 'COVID/css/zabuto_calendar.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'COVID/lib/gritter/css/jquery.gritter.css' %}" />
+  <link href="{% static 'COVID/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'COVID/css/style-responsive.css' %}" rel="stylesheet">
+  <script src="{% static 'COVID/lib/chart-master/Chart.js' %}"></script>
+
+</head>
+
+<body>
+  <section id="container">
+    <!--header start-->
+    <header class="header black-bg">
+
+      <!--logo start-->
+      <a href="{% url 'internationale' %}" class="logo"><b>covid<span>stat</span></b></a>
+      <!--logo end-->
+
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+         <li><a class="logout" href="{% url 'internationale' %}">Internationale</a></li>
+          <li><a class="logout" href="{% url 'tunisia' %}">Nationale</a></li>
+             <li><a class="logout" href="{% url 'info' %}">COVID-19?</a></li>
+        </ul>
+      </div>
+    </header>
+    <!--header end-->
+    <!--sidebar start-->
+<aside>
+      <div id="sidebar" class="nav-collapse " tabindex="5000" style="overflow: hidden; outline: none;">
+        <ul class="sidebar-menu" id="nav-accordion">
+          <p class="centered"><a ><img src="{% static 'COVID/img/virus.png' %} " class="img-circle" width="80"></a></p>
+
+          <li class="mt">
+            <a class="active" >
+
+              <span>Qu’est-ce qu’un coronavirus ?</span>
+              </a>
+          </li>
+          <li class="sub-menu dcjq-parent-li">
+            <a  class="dcjq-parent">
+
+              <span>Qu’est-ce qu’un COVID-19 ?</span>
+              <span class="dcjq-icon"></span></a>
+            <ul class="sub" style="display: none;">
+
+            </ul>
+          </li>
+          <li class="sub-menu dcjq-parent-li">
+            <a  class="dcjq-parent">
+
+              <span>Comment sepropage la COVID-19?</span>
+              <span class="dcjq-icon"></span></a>
+            <ul class="sub" style="display: none;">
+
+            </ul>
+          </li>
+          <li class="sub-menu dcjq-parent-li">
+            <a  class="dcjq-parent">
+
+              <span>
+Quels sont les symptômes ?</span>
+              <span class="dcjq-icon"></span></a>
+            <ul class="sub" style="display: none;">
+
+            </ul>
+          </li>
+          <li class="sub-menu dcjq-parent-li">
+            <a class="dcjq-parent">
+
+              <span>ce virus est-il transmissible par voie aérienne ?</span>
+              <span class="dcjq-icon"></span></a>
+            <ul class="sub" style="display: none;">
+
+            </ul>
+          </li>
+          <li class="sub-menu dcjq-parent-li">
+            <a  class="dcjq-parent">
+
+              <span>Combien de temps dure la période d’incubation ?</span>
+              <span class="dcjq-icon"></span></a>
+            <ul class="sub" style="display: none;">
+
+            </ul>
+          </li>
+          <li>
+            <a >
+
+              <span>Existe-t-il un vaccin contre les nouveaux coronavirus? </span>
+
+              </a>
+          </li>
+          <li class="sub-menu dcjq-parent-li">
+            <a  class="dcjq-parent">
+
+              <span>Comment se protéger de COVID-19?</span>
+              <span class="dcjq-icon"></span></a>
+            <ul class="sub" style="display: none;">
+
+            </ul>
+          </li>
+        </ul>
+        <!-- sidebar menu end-->
+      </div>
+    </aside>
+    <!--sidebar end-->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-9 main-chart">
+      <div id="entete">
+
+</div>
+            <div class="row mt">
+              <!-- SERVER STATUS PANELS -->
+              <div class="col-md-4 col-sm-4 mb">
+                <div class="grey-panell pn donut-chart">
+                  <div class="grey-header">
+                    <h5>Qu’est-ce qu’un coronavirus ?</h5>
+                  </div>
+
+                  <div class="row">
+
+                    <p >Les coronavirus forment une vaste<br/>
+                        famille de virus présents chez<br/> l’homme
+                        et chez l’animal. Ceux qui <br/>touchent
+                        l’être humain peuvent <br/>entraîner des
+                        manifestations diverses<br/> allant du simple
+                        rhume à des maladies plus graves</p>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-4 mb">
+                <div class="darkblue-panel pn">
+                  <div class="darkblue-header">
+                    <h5>Qu’est-ce qu’un COVID-19 ?</h5>
+                  </div>
+
+                  <p style="color:white" >La COVID-19 est la maladie infectieuse causée
+                      par le coronavirus le plus récemment découvert.
+                      Ce nouveau coronavirus et cette nouvelle maladie
+                      n’avait encore jamais été décelé avant qu'une flambée épidémique
+                      ne soit signalée à Wuhan, en Chine, en décembre 2019.
+</p>
+
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-4 mb">
+                <div class="green-panel pn">
+                  <div class="green-header">
+                    <h5>Comment se propage la COVID-19?</h5>
+                  </div>
+                  <p >La COVID-19 est transmise par des personnes porteuses du virus.
+                      La maladie peut se transmettre d’une personne à l’autre
+                      par le biais de gouttelettes respiratoires expulsées
+                      par le nez ou par la bouche lorsqu’une personne tousse ou éternue.
+                      On peut alors contracter la COVID-19 si on touche
+                      ces objets ou ces surfaces et si on se touche
+                      ensuite les yeux, le nez ou la bouche.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb">
+                <div class="weather pn">
+
+                </div>
+              </div>
+              <div class="col-md-8 mb">
+                <div class="message-p pn">
+                  <div class="message-header">
+                    <h5>Quels sont les symptômes de l’infection à coronavirus chez l’être humain?</h5>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 centered hidden-sm hidden-xs">
+                      <img src="{% static 'COVID/img/symptome1.png' %}" class="img-circle" width="65">
+
+                    </div>
+                    <div class="col-md-9">
+                      <p>Les symptômes suivants peuvent apparaître 2 à 14 jours après l’exposition:
+                          <br/><span style="color: crimson">Fièvre
+Toux
+                              Essoufflement</span><br/>
+Si vous présentez des signes d’alerte d’urgence pour COVID-19, consultez immédiatement un médecin. Les signes d’alerte d’urgence comprennent:<br/>
+<span style="color: crimson">Difficultés respiratoires ou essoufflement
+Douleur ou pression persistante dans la poitrine
+Confusion
+Lèvres ou visage bleus
+</span>
+.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb">
+                <div class="twitter-panel pn">
+                  <br/>
+                    <h4>ce virus est-il transmissible par voie aérienne ?</h4>
+              <p> Les études menées à ce jour semblent indiquer que le virus
+                   responsable de la COVID-19 est principalement transmissible
+                   par contact avec des gouttelettes respiratoires
+                   , plutôt que par voie aérienne.</p>
+
+                </div>
+              </div>
+              <div class="col-md-4 mb">
+                <div class="white-panel pn">
+                  <div class="white-header">
+                    <h5>Combien de temps dure la période d’incubation ?</h5>
+                  </div>
+                  <p>La période d’incubation est le temps qui s’écoule entre l’infection et l’apparition des symptômes de la maladie. On estime actuellement que la période d’incubation de la COIVD-19 dure de 1 à 14 jours et le plus souvent autour de cinq jours.
+Ces estimations seront actualisées à mesure que de nouvelles données seront disponibles
+</p>
+
+                  <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb">
+                <div class="instagram-panel pn">
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4 mb">
+                <div class="product-panel-2 pn">
+                 <br/>
+                    <h4>Existe-t-il un vaccin contre les nouveaux coronavirus?</h4>
+                    <p>Lorsqu’une nouvelle maladie apparaît, un vaccin ne devient disponible qu’à l’issue d’un processus de mise au point des vaccins, qui peut prendre plusieurs années.
+
+</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 mb">
+                <div class="content-panel pn">
+                  <div id="profile-02">
+                    <div class="user">
+
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-4 mb">
+                <div class="green-panel pn">
+                  <div class="green-header">
+                    <h5>Peut-on contracter la COVID-19 au contact d’une personne qui ne présente aucun symptôme ?</h5>
+                  </div>
+
+                  <p>Le risque de contracter la COVID-19 au contact d’une personne
+                      qui ne présente aucun symptôme est très faible.
+Cependant, beaucoup de personnes atteintes ne présentent que des symptômes discrets.
+                      C’est particulièrement vrai aux premiers stades de la maladie.
+
+</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 ds">
+            <div class="donut-main">
+              <h4>Comment se protéger de COVID-19?</h4>
+
+            </div>
+            <div class="desc">
+              <div class="thumb">
+                <span class="badge bg-theme"><img src="{% static 'COVID/img/main.png' %}"></span>
+              </div>
+              <div class="details">
+                <h5>
+                  Se laver fréquemment les mains
+                </h5>
+              </div>
+            </div>
+            <div class="desc">
+              <div class="thumb">
+                <span class="badge bg-theme"><img src="{% static 'COVID/img/contact.png' %}"></span>
+              </div>
+              <div class="details">
+                <h5>Éviter les contacts proches</h5>
+              </div>
+            </div>
+            <div class="desc">
+              <div class="thumb">
+                <span class="badge bg-theme"><img src="{% static 'COVID/img/toucher.png' %}"></span>
+              </div>
+              <div class="details">
+               <h5>Éviter de se toucher les yeux, le nez et la bouche.</h5>
+              </div>
+            </div>
+            <div class="desc">
+              <div class="thumb">
+                <span class="badge bg-theme"><img src="{% static 'COVID/img/respirer.png' %}"></span>
+              </div>
+              <div class="details">
+                <h5>Respecter les règles d’hygiène respiratoire</h5>
+              </div>
+            </div>
+
+            <div class="desc">
+              <div class="thumb">
+                  <span class="badge bg-theme"><img src="{% static 'COVID/img/medcin.png' %}"></span>
+              </div>
+              <div class="details">
+             <h5>Tenez-vous informé et suivez les conseils de votre médecin</h5>
+              </div>
+            </div>
+            <div class="desc">
+              <div class="thumb">
+               <span class="badge bg-theme"><img src="{% static 'COVID/img/voyages.png' %}"></span>
+              </div>
+              <div class="details">
+                <h5>Mesures de protection pour les personnes qui se trouvent ou qui se sont récemment rendues (au cours des 14 derniers jours) dans des régions où la COVID-19 se propage</h5>
+              </div>
+            </div>
+            <div class="desc">
+<div class="thumb">
+               <span class="badge bg-theme"><img src="{% static 'COVID/img/handshake.jpg' %}"></span>
+              </div>
+              <div class="details">
+                <h5 style="color: #00a6b2">Faut-il éviter de se serrer la main à cause du nouveau coronavirus ?</h5>
+                  <p>Oui. On peut contracter les virus respiratoires en serrant la main à quelqu’un puis en se touchant les yeux, le nez ou la bouche.
+                      Saluez d’un signe de la main ou de la tête, ou encore en vous inclinant.</p>
+              </div>
+            </div>
+            <div class="desc">
+              <div class="thumb">
+<span class="badge bg-theme"><img src="{% static 'COVID/img/gloves.jpg' %}"></span>              </div>
+              <div class="details">
+               <h5 style="color: #00a6b2">Le port de gants en caoutchouc  permet-il d’éviter l’infection par  coronavirus ?</h5>
+                  <p>Non. Le fait de se laver les mains régulièrement protège mieux contre la COVID-19 . Le virus peut se trouver sur les gants et il y a un risque de contamination
+                      si vous vous touchez le visage .</p>
+                </p>
+              </div>
+            </div>
+            <div id="calendar" class="mb">
+              <div class="panel green-panel no-margin">
+                <div class="panel-body">
+                  <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
+                    <div class="arrow"></div>
+                    <h3 class="popover-title" style="disadding: none;"></h3>
+                    <div id="date-popover-content" class="popover-content"></div>
+                  </div>
+                  <div id="my-calendar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+    <!--footer start-->
+    <footer class="site-footer">
+      <div class="text-center">
+<p>
+          ENSI (DATA-COVID -19 2020/2021)
+        </p>
+        <div class="credits">
+        </div>
+      </div>
+    </footer>
+    <!--footer end-->
+  </section>
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+  <script src="lib/jquery.scrollTo.min.js"></script>
+  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+  <script src="lib/jquery.sparkline.js"></script>
+  <script src="lib/common-scripts.js"></script>
+  <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
+  <script type="text/javascript" src="lib/gritter-conf.js"></script>
+  <script src="lib/sparkline-chart.js"></script>
+  <script src="lib/zabuto_calendar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,604 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>DATA-VIZ COVID </title>
+  <style>
+    #container-map-chart {
+      height: 500px;
+      min-width: 310px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .loading {
+      margin-top: 10em;
+      text-align: center;
+      color: gray;
+    }
+  </style>
+  <link href="{% static 'COVID/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'COVID/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+  <link rel="stylesheet" type="text/css" href="{% static 'COVID/css/zabuto_calendar.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'COVID/lib/gritter/css/jquery.gritter.css' %}" />
+  <link href="{% static 'COVID/lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'COVID/lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <link href="{% static 'COVID/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'COVID/css/style-responsive.css' %}" rel="stylesheet">
+  <script src="{% static 'COVID/lib/chart-master/Chart.js' %}"></script>
+  <script src="https://code.highcharts.com/maps/highmaps.js"></script> 
+  <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+  <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-cartesian.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-base.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+
+
+<script>
+  window.onload = function () {
+
+  var chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    theme: "light2",
+    title:{
+      text: "Simple Line Chart"
+    },
+    data: [{
+      type: "line",
+          indexLabelFontSize: 16,
+      dataPoints: [
+        { y: 450 },
+        { y: 414},
+        { y: 520, indexLabel: "\u2191 highest",markerColor: "red", markerType: "triangle" },
+        { y: 460 },
+        { y: 450 },
+        { y: 500 },
+        { y: 480 },
+        { y: 480 },
+        { y: 410 , indexLabel: "\u2193 lowest",markerColor: "DarkSlateGrey", markerType: "cross" },
+        { y: 500 },
+        { y: 480 },
+        { y: 510 }
+      ]
+    }]
+  });
+  chart.render();
+
+  }
+  </script>
+<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css" />
+  <script>
+    var data2={{ dataForMap1|safe }};
+    Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/world-population-density.json', function (data) {
+
+    data.forEach(function (p) {
+        p.value = (p.value < 1 ? 1 : p.value);
+    });
+
+    Highcharts.mapChart('sawsen', {
+
+        chart: {
+            map: 'custom/world'
+        },
+
+        title: {
+            text: 'Carte du Monde COVID-19'
+        },
+
+        legend: {
+            title: {
+                text: 'Cas Confirmés COVID-19',
+                style: {
+                    color: ( // theme
+                        Highcharts.defaultOptions &&
+                        Highcharts.defaultOptions.legend &&
+                        Highcharts.defaultOptions.legend.title &&
+                        Highcharts.defaultOptions.legend.title.style &&
+                        Highcharts.defaultOptions.legend.title.style.color
+                    ) || 'black'
+                }
+            }
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        tooltip: {
+            backgroundColor: 'none',
+            borderWidth: 0,
+            shadow: false,
+            useHTML: true,
+            padding: 0,
+            pointFormat: '<span class="f32"><span class="flag {point.properties.hc-key}">' +
+                '</span></span> {point.name}<br>' +
+                '<span style="font-size:30px">{point.value}</span>',
+            positioner: function () {
+                return { x: 0, y: 250 };
+            }
+        },
+
+        colorAxis: {
+            min: 1,
+            max: 60000000,
+            type: 'logarithmic'
+        },
+
+        series: [{
+            data: data2,
+            joinBy: ['iso-a3', 'code3'],
+            name: 'Cas Confirmés',
+            states: {
+                hover: {
+                    color: '#4ecdc4'
+                }
+            }
+        }]
+    });
+});
+
+  </script>
+
+  <style>
+    #sawsen {
+    height: 500px;
+    width: 800px;
+    margin: 0 auto;
+}
+
+.highcharts-tooltip>span {
+    padding: 10px;
+    white-space: normal !important;
+    width: 200px;
+}
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+
+.f32 .flag {
+    vertical-align: middle !important;
+}
+  </style>
+  </head>
+<aside>
+  <div id="sidebar" style="background-color: white;">
+    <br>
+    <br><br>
+    <div class="col-lg-4" style="float :left; padding-top: 80px;">
+      <form method="post" enctype="multipart/form-data" action ="selectedCountry">
+          {% csrf_token %}
+          {% for con in countryNames %}
+          <input class="btn btn-theme" type ="submit" value ={{con}} name ="countryName" style="width:50px;"><br><br>
+
+          {% endfor %}
+      </form>
+  </div>
+    <div id="chart-container" style="float :right; width :130px;height: 10020px; "></div>
+
+    </div>
+</aside>
+<body>
+
+  <section id="container">
+    
+    <!--header start-->
+    <header class="header black-bg">
+
+      <!--logo start-->
+      <a href="{% url 'internationale' %}" class="logo"><b>covid<span>stat</span></b></a>
+      <!--logo end-->
+
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+          <li><a class="logout" href="{% url 'internationale' %}">Internationale</a></li>
+          <li><a class="logout" href="{% url 'tunisia' %}">Nationale</a></li>
+             <li><a class="logout" href="{% url 'info' %}">COVID-19?</a></li>
+        </ul>
+      </div>
+    </header>
+    
+    <!--main content start-->
+    <section id="main-content">
+
+
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-9 main-chart">
+
+            <div class="border-head">
+              <h3> </h3>
+            </div>
+            {% if showMap == 'True' %}
+              <div id="sawsen"></div>
+            {% elif showMap == 'False'%}
+              <div id="chart"></div>
+            {% endif %}
+
+            <br>
+            <br>
+            {% if showMap == 'True' %}
+              <div>
+                <figure class="highcharts-figure">
+                  <div id="sawsen2"></div>
+                  <p class="highcharts-description">
+
+                  </p>
+              </figure>
+              </div>
+            {% elif showMap == 'False'%}
+            {% endif %}
+            <div class="row mt">
+              {% if showMap == 'True' %}
+                <div class="col-md-4 col-sm-4 mb">
+                 {% comment %}new 1{% endcomment %}
+                   <h3 class="truncate"> {{news.0.title }}</h3>
+                    <img src="{% static 'COVID/img/covid1.jpg' %}" width="240px"><br/>
+                    {{news.0.description }}
+                    <h4><a href="{{news.0.link }}" style="color: #00c5de">Read more></a></h4>
+                    {{news.0.pubDate }}
+                    {{news.0.category }}
+                </div>
+
+                <div class="col-md-4 col-sm-4 mb">
+                                {% comment %}new 2{% endcomment %}
+
+                <h3>{{news.1.title }}</h3>
+                    <img src="{% static 'COVID/img/covid2.jpg' %}" width="240px"><br/>
+                    {{news.1.description }}
+                    <h4><a href="{{news.1.link }}"style="color: #00c5de">Read more></a></h4>
+                    {{news.1.pubDate }}
+                    {{news.1.category }}
+                </div>
+
+                <div class="col-md-4 col-sm-4 mb">
+                               {% comment %}new 3{% endcomment %}
+
+                    <h3>{{news.2.title }}</h3>
+                     <img src="{% static 'COVID/img/covid3.jpg' %}" width="240px"><br/>
+                    {{news.2.description }}
+                    <h4><a href="{{news.2.link }}"style="color: #00c5de">Read more></a></h4>
+                    {{news.2.pubDate }}
+                    {{news.2.category }}
+
+                </div>
+
+              {% elif showMap == 'False'%}
+
+                <div class="row">
+                  <div class="col-md-4 mb">
+                    <div class="twitter-panel pn">
+                      <i class="fa fa-hospital-o fa-4x"></i>
+                      <h3 style="color:aliceblue;">Cas actifs</h3>
+                      <h1 style="color:aliceblue;">{{ dataa }}</h1>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb">
+                    <div class="twitter-panel pn">
+                      <i class="fa fa-heartbeat fa-4x"></i>
+                      <h3 style="color:aliceblue;">Taux de mortalité</h3>
+                      <h1 style="color:aliceblue;">{{ datarir }}</h1>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb">
+                    <div class="twitter-panel pn">
+                      <i class="fa fa-ambulance fa-4x"></i>
+                      <h3 style="color:aliceblue;">Taux de létalité</h3>
+                      <h1 style="color:aliceblue;">{{ dataft }}</h1>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <div class="row">
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 ds">
+
+
+            <div id="morris">
+
+              <div class="content-panel">
+
+
+                  <div id="hero-donut" class="graph"></div>
+
+              </div>
+
+          </div>
+            
+            <h4 class="centered mt">TEAM MEMBERS :</h4>
+            <div class="desc">
+              <div class="thumb">
+                <img class="img-circle" src="{% static 'COVID/img/chaima.jpg' %}" width="35px" height="35px" align="">
+              </div>
+              <div class="details">
+                <p>
+                  Hafsi Chaima<br/>
+                  <muted>II2E</muted>
+                </p>
+              </div>
+            </div>
+            
+            <div class="desc">
+              <div class="thumb">
+                <img class="img-circle" src="{% static 'COVID/img/iheb.jpg' %}" width="35px" height="35px" align="">
+              </div>
+              <div class="details">
+                <p>
+                  Ben Hmissa Iheb Sadok<br/>
+                  <muted>II2E</muted>
+                </p>
+              </div>
+            </div>
+            <div class="desc">
+              <div class="thumb">
+                <img class="img-circle" src="{% static 'COVID/img/bouraoui.jpg' %}" width="35px" height="35px" align="">
+              </div>
+              <div class="details">
+                <p>
+                  Bouraoui Mohamed<br/>
+                  <muted>II2B</muted>
+                </p>
+              </div>
+            </div>
+            {% if showMap == 'True' %}
+              <div class="green-panel pn">
+                <div class="green-header">
+                  <h5>Pour les 11 derniers Jours !</h5>
+
+                </div>
+                <div class="chart mt">
+                  <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[{{ totalCount11 }},{{ totalCount10 }},{{ totalCount9 }},{{ totalCount8 }},{{ totalCount7 }},{{ totalCount6 }},{{ totalCount5 }},{{ totalCount4 }},{{ totalCount3 }},{{ totalCount2 }},{{ totalCount }}]"></div>              </div>
+                  <div class="centered">
+                    <span>Nombres totale des cas confirmés</span>
+                    <strong>Pour les 11 derniers Jours ! </strong>
+                  </div>
+              </div>
+              <br>
+            {% elif showMap == 'False'%}
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </section>
+    <!--footer start-->
+    <footer class="site-footer">
+      <div class="text-center">
+        <p>
+          ENSI (DATA-COVID -19 2020/2021)
+        </p>
+        <div class="credits">
+        </div>
+        <a href="index.html#" class="go-top">
+          <i class="fa fa-angle-up"></i>
+          </a>
+      </div>
+    </footer>
+    <!--footer end-->
+  </section>
+  <script src="{% static 'COVID/lib/jquery/jquery.min.js' %}"></script>
+
+  <script src="{% static 'COVID/lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script class="include" type="text/javascript" src="{% static 'COVID/lib/jquery.dcjqaccordion.2.7.js' %}"></script>
+  <script src="{% static 'COVID/lib/jquery.scrollTo.min.js' %}"></script>
+  <script src="{% static 'COVID/lib/jquery.nicescroll.js' %}" type="text/javascript"></script>
+  <script src="{% static 'COVID/lib/jquery.sparkline.js' %}"></script>
+  <script src="{% static 'COVID/lib/common-scripts.js' %}"></script>
+  <script type="text/javascript" src="{% static 'COVID/lib/gritter/js/jquery.gritter.js' %}"></script>
+  <script type="text/javascript" src="{% static 'COVID/lib/gritter-conf.js' %}"></script>
+  <script src="{% static 'COVID/lib/sparkline-chart.js' %}"></script>
+  <script src="{% static 'COVID/lib/zabuto_calendar.js' %}"></script>
+  <script src="{% static 'COVID/lib/jquery/jquery.min.' %}"></script>
+  <script src="{% static 'COVID/lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script class="include" type="text/javascript" src="{% static 'COVID/lib/jquery.dcjqaccordion.2.7.js' %}"></script>
+  <script src="{% static 'COVID/lib/jquery.scrollTo.min.js' %}"></script>
+  <script src="{% static 'COVID/lib/jquery.nicescroll.' %}" type="text/javascript"></script>
+  <script src="{% static 'COVID/lib/raphael/raphael.min.js' %}"></script>
+  <script src="{% static 'COVID/lib/morris/morris.min.js' %}"></script>
+  <script src="{% static 'COVID/lib/common-scripts.js' %}"></script>
+  <script src="{% static 'COVID/lib/morris-conf.js' %}"></script>
+  <script>
+      Morris.Donut({
+        element: 'hero-donut',
+        {% if showMap == 'True' %}
+          data: [
+              {label: 'Confirmés ', value: {{ totale_confirmed }} },
+              {label: 'Guéries', value: {{ totalere_coverd }} },
+              {label: 'Décès', value: {{ totale_deaths }} },
+
+            ],
+        {% elif showMap == 'False'%}
+          data: [
+            {label: 'Confirmés ', value: {{ datac}} },
+            {label: 'Guéries', value: {{datar }} },
+            {label: 'Décès', value: {{ datad }} },
+
+          ],
+        {% endif %}
+          colors: ['#f68275', '#4ecdc4', '#5d62b5'],
+        formatter: function (y) { return y  }
+      });
+  </script>
+
+  <script>
+    date353={{ cases|safe }};
+    cases= [date353[0],date353[1],date353[2],date353[3],date353[4],date353[5]];
+    data453={{ deathscon|safe }};
+ Highcharts.chart('sawsen2', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Répartition de COVID-19 / continent'
+    },
+
+    xAxis: {
+        categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania','other'],
+        title: {
+            text: null
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Person (millions)',
+            align: 'high'
+        },
+        labels: {
+            overflow: 'justify'
+        }
+    },
+    tooltip: {
+        valueSuffix: ' millions'
+    },
+    plotOptions: {
+        bar: {
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -40,
+        y: 80,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor:
+            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+        shadow: true
+    },
+    credits: {
+        enabled: false
+    },
+    series: [{
+        name: 'INFACTED',
+        data: cases
+    }, {
+        name: 'DEAD',
+        data:data453
+    }]
+});
+  </script>
+  <script>
+    const dataSource = {
+      chart: {
+        caption: "COVID-19 cases",
+        yaxisname: "Number of cases ",
+        aligncaptionwithcanvas: "0",
+        plottooltext: "<b>$dataValue</b> case ",
+        theme: "fusion"
+      },
+      data: [{% for val in barplotVals %}
+        {
+          label: "",
+          value: {{ val }}
+        },
+        {% endfor %}
+
+      ]
+    };
+
+    FusionCharts.ready(function() {
+      var myChart = new FusionCharts({
+        type: "bar2d",
+        renderAt: "chart-container",
+        width: "100%",
+        height: "100%",
+        dataFormat: "json",
+        dataSource
+      }).render();
+    });
+  </script>
+<script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'line',
+
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+}),
+
+</script>
+<script>
+  var options = {
+          series: [{
+            name: "Cases",
+            data:{{ values|safe  }}
+        }],
+          colors: ["#5d62b5"],
+          chart: {
+          height: 350,
+          type: 'area',
+          zoom: {
+            enabled: false
+          }
+
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: 'COVID-19 pour {{ countryname }}',
+          align: 'center'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], 
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: {{ dates|safe }},
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+</script>
+</body>
+
+</html>
